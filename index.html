@@ -1,0 +1,118 @@
+<html>
+
+<head>
+    <titile>sea</titile>
+</head>
+
+<body>
+    <script>
+        class SVG {
+            constructor() {
+                this.width = window.innerWidth;
+                this.height = window.innerHeight;
+                this.aspect = this.height / this.width;
+                this.svg = this.createSVG()
+            }
+
+            sx(x) {
+                return x * this.width;
+            }
+
+            sy(y) {
+                return y * this.height;
+            }
+
+            setA(element, key, value) {
+                element.setAttribute(key, value)
+            }
+
+            createSVG() {
+                const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+                document.body.appendChild(svg);
+                document.body.style.overflow = 'hidden';
+                document.body.style.margin = '0px';
+                svg.style.width = '100vw';
+                svg.style.height = '100vh';
+                return svg;
+            }
+
+            newPoint(array) {
+                const point = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+                this.setA(point, 'cx', array[0] * s.width);
+                this.setA(point, 'cy', array[1] * s.height);
+                this.setA(point, 'r', 2.5)
+                this.svg.appendChild(point);
+                return point;
+            }
+
+        }
+
+        const s = new SVG();
+
+        function createPoints(size, y) {
+            return new Array(size).fill(0).map((v, i, a) => {
+                return s.newPoint([i / a.length, y])
+            })
+        }
+
+        let view = new Array(5).fill(0).map((v, i, a) => {
+
+            return createPoints(10 + Math.pow(2, i), 1 - (Math.log(i + 1) / Math.E * 0.5))
+        })
+
+
+
+        function update() {
+            requestAnimationFrame(update)
+
+            const s = new SVG();
+
+            function createPoints(size, y) {
+                return new Array(size).fill(0).map((v, i, a) => {
+                    return s.newPoint([i / a.length, y])
+                })
+            }
+
+            let view = new Array(5).fill(0).map((v, i, a) => {
+
+                return createPoints(10 + Math.pow(2, i), 0.8 - (Math.log(i + 1) / Math.E * 0.5))
+            })
+
+
+
+            function update() {
+                requestAnimationFrame(update)
+
+
+                view.forEach((v2, i2, a2) => {
+                    v2.forEach((v, i, a) => {
+                        let x = Number(v.getAttribute('cx'))
+                        if (x > s.width) {
+                            x = 0
+                        }
+                        x += 1 + (a2.length - i2);
+                        s.setA(v, 'cx', x)
+                    })
+                })
+            }
+
+            requestAnimationFrame(update)
+
+            view.forEach((v2, i2, a2) => {
+                v2.forEach((v, i, a) => {
+                    let x = Number(v.getAttribute('cx'))
+                    if (x > s.width) {
+                        x = 0
+                    }
+                    x += 1 + (a2.length - i2);
+                    s.setA(v, 'cx', x)
+                })
+            })
+        }
+
+        requestAnimationFrame(update)
+
+    </script>
+</body>
+
+</html>
