@@ -5,7 +5,7 @@
 </head>
 
 <body>
-    <script defer>
+    <script>
         class SVG {
             constructor() {
                 this.width = window.innerWidth;
@@ -49,36 +49,36 @@
 
         const s = new SVG();
 
-function createPoints(size, y) {
-    return new Array(size).fill(0).map((v, i, a) => {
-        return s.newPoint([i / a.length, y])
-    })
-}
+        function createPoints(size, y) {
+            return new Array(size).fill(0).map((v, i, a) => {
+                return s.newPoint([i / a.length, y])
+            })
+        }
 
-let view = new Array(5).fill(0).map((v, i, a) => {
+        let view = new Array(5).fill(0).map((v, i, a) => {
 
-    return createPoints(10 + Math.pow(2, i), 0.8 - (Math.log(i + 1) / Math.E * 0.5))
-})
-
-
-
-function update() {
-    requestAnimationFrame(update)
-
-
-    view.forEach((v2, i2, a2) => {
-        v2.forEach((v, i, a) => {
-            let x = Number(v.getAttribute('cx'))
-            if (x > s.width) {
-                x = 0
-            }
-            x += 1 + (a2.length - i2);
-            s.setA(v, 'cx', x)
+            return createPoints(10 + Math.pow(2, i), 0.8 - (Math.log(i + 1) / Math.E * 0.5))
         })
-    })
-}
 
-requestAnimationFrame(update)
+
+
+        function update() {
+            requestAnimationFrame(update)
+
+
+            view.forEach((v2, i2, a2) => {
+                v2.forEach((v, i, a) => {
+                    let x = Number(v.getAttribute('cx'))
+                    if (x > s.width) {
+                        x = 0
+                    }
+                    x += 1 + (a2.length - i2);
+                    s.setA(v, 'cx', x)
+                })
+            })
+        }
+
+        requestAnimationFrame(update)
 
     </script>
 </body>
